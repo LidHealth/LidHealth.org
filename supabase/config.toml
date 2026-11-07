@@ -1,0 +1,8 @@
+[functions.create-payment]
+verify_jwt = false
+
+[functions.payfast-itn]
+verify_jwt = false
+
+[functions.get-paid-receipt]
+verify_jwt = false

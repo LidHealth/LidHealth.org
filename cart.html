@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Your Cart | LidHealth</title>
+<style>
+:root{color-scheme:light dark;--bg:#faf8f4;--ink:#28242a;--mute:#716a70;--pu:#553b5c;--tile:#f0ebe6;--line:#e8e1db;--on:#fff;--accent:#a67d67;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1e1b20;--ink:#f2ece6;--mute:#b6aeb2;--pu:#c8accb;--tile:#29242a;--line:#403941;--on:#211d23;--accent:#d1a98e}}
+:root[data-theme="dark"]{--bg:#1e1b20;--ink:#f2ece6;--mute:#b6aeb2;--pu:#c8accb;--tile:#29242a;--line:#403941;--on:#211d23;--accent:#d1a98e}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.7 "Avenir Next",Avenir,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+.wrap{width:min(920px,calc(100% - 48px));margin:0 auto}
+header{background:var(--bg);border-bottom:1px solid var(--line)}
+header .wrap{display:flex;justify-content:space-between;align-items:center;gap:16px;padding-top:18px;padding-bottom:18px}
+.wordmark{font-family:"Iowan Old Style",Baskerville,Georgia,serif;color:var(--ink);font-size:19px;letter-spacing:.1em;text-decoration:none}
+h1,h2{font-family:"Iowan Old Style",Baskerville,"Palatino Linotype",Georgia,serif;font-weight:500;line-height:1.15;letter-spacing:-.025em}
+h1{font-size:clamp(42px,7vw,68px);margin:0}h2{font-size:24px;margin:0 0 16px}
+a{color:var(--pu)}
+.btn,.ghost{font:inherit;min-height:46px;border-radius:3px;padding:0 16px;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease,transform .18s ease}
+.btn{background:var(--pu);color:var(--on);border:1px solid var(--pu)}
+.btn:hover{background:var(--ink);border-color:var(--ink);transform:translateY(-1px)}
+.ghost{display:inline-flex;align-items:center;justify-content:center;background:transparent;border:1px solid var(--line);color:var(--ink);text-decoration:none}
+.ghost:hover{border-color:var(--pu);color:var(--pu);background:var(--tile)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+main{padding-top:64px;padding-bottom:76px}
+.eyebrow{margin:0 0 12px;color:var(--accent);font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase}
+.intro{max-width:580px;margin-bottom:36px}
+.intro p:last-child{max-width:46ch;margin:16px 0 0;color:var(--mute)}
+.cart-shell{padding:26px 30px;border:1px solid var(--line);background:color-mix(in srgb,var(--tile) 42%,var(--bg))}
+.cart-heading{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding-bottom:16px;border-bottom:1px solid var(--line)}
+.cart-heading h2{margin:0}.cart-heading span{color:var(--mute);font-size:13px}
+.item{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:16px;align-items:center;padding:18px 0;border-bottom:1px solid var(--line)}
+.item-name{font-family:"Iowan Old Style",Baskerville,Georgia,serif;font-size:18px}
+.quantity{display:flex;align-items:center;gap:10px}.quantity span{min-width:2ch;text-align:center;font-variant-numeric:tabular-nums}
+.quantity button{width:36px;min-height:36px;padding:0;font-size:18px}
+.item>span:last-child{min-width:64px;text-align:right;font-variant-numeric:tabular-nums}
+.total{display:flex;justify-content:space-between;font-size:20px;font-weight:600;padding:22px 0 16px;font-variant-numeric:tabular-nums}
+#pay{width:100%}
+.empty{padding:26px 0;color:var(--mute)}
+.note{min-height:1.5em;color:var(--mute);font-size:14px}
+footer{padding:22px 0;color:var(--mute);font-size:12px;letter-spacing:.08em;text-transform:uppercase;border-top:1px solid var(--line)}
+@media(max-width:600px){.wrap{width:calc(100% - 32px)}header .wrap{padding-top:14px;padding-bottom:14px}main{padding-top:42px;padding-bottom:54px}.cart-shell{padding:20px 16px}.item{grid-template-columns:minmax(0,1fr) auto;gap:10px}.item>span:last-child{grid-column:1/-1;text-align:right}.item-name{font-size:16px}.intro{margin-bottom:26px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important}}
+:root{color-scheme:light;--bg:#fff;--ink:#252925;--mute:#737a74;--pu:#26332b;--tile:#f3f5f2;--line:#e6e9e5;--on:#fff;--accent:#567561}
+:root:not([data-theme="light"]){--bg:#fff;--ink:#252925;--mute:#737a74;--pu:#26332b;--tile:#f3f5f2;--line:#e6e9e5;--on:#fff;--accent:#567561}
+body{font-family:"Avenir Next",Avenir,"Segoe UI",sans-serif;font-size:14px;line-height:1.6}
+.wrap{width:min(1200px,calc(100% - 48px));max-width:none}
+.announce{min-height:27px;display:grid;place-items:center;padding:4px 16px;background:#4b2864;color:white;text-align:center;font-size:10px;letter-spacing:.08em}
+header{background:#fff}
+header .wrap{min-height:68px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:18px;border-bottom:1px solid var(--line);padding-top:0;padding-bottom:0}
+.wordmark{grid-column:2;grid-row:1;color:var(--ink);font-family:"Avenir Next",Avenir,"Segoe UI",sans-serif;font-size:14px;font-weight:700;letter-spacing:.16em}
+.cart-nav{grid-column:1;grid-row:1;display:flex;align-items:center;gap:22px}
+.cart-nav a{color:var(--ink);font-size:10px;font-weight:600;letter-spacing:.1em;text-decoration:none;text-transform:uppercase}
+.cart-nav a:hover{color:#557663}
+header .ghost{grid-column:3;grid-row:1;justify-self:end;min-height:38px;border-radius:0;font-size:11px}
+h1,h2{font-family:"Avenir Next",Avenir,"Segoe UI",sans-serif;font-weight:500;letter-spacing:-.035em}
+h1{font-size:clamp(36px,5vw,58px);line-height:1.08}
+h2{font-size:20px;font-weight:600}
+a{color:#3f614b}
+.btn,.ghost{border-radius:0}
+.btn{background:#252925;border-color:#252925;color:#fff;font-size:11px;letter-spacing:.04em}
+.btn:hover{background:#557663;border-color:#557663}
+.ghost:hover{border-color:#557663;color:#557663;background:#f3f5f2}
+:focus-visible{outline:2px solid #567561;outline-offset:3px}
+main{width:min(900px,calc(100% - 48px));padding-top:58px;padding-bottom:82px}
+.eyebrow{margin:0 0 12px;color:#557663;font-size:9px;font-weight:700;letter-spacing:.17em;text-transform:uppercase}
+.intro{max-width:580px;margin-bottom:32px}
+.intro p:last-child{max-width:46ch;margin:14px 0 0;color:var(--mute)}
+.cart-shell{padding:22px 0;border:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:#fff}
+.cart-heading{padding:0 0 16px}
+.item{padding:18px 0}
+.item-name{font-family:"Avenir Next",Avenir,"Segoe UI",sans-serif;font-size:14px}
+.quantity button{border-radius:0}
+.checkout-shell[hidden],.delivery-fields[hidden]{display:none}
+.checkout-shell{padding-top:36px}
+.checkout-heading{margin-bottom:20px}
+.checkout-heading h2{margin-bottom:6px}
+.checkout-heading p{margin:0;color:var(--mute)}
+.checkout-form{display:grid;gap:24px}
+.form-section{padding:22px 24px;border:1px solid var(--line);background:#f3f5f2}
+.form-section h3{margin:0 0 16px;font-size:16px;font-weight:600}
+.field-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.field{display:grid;gap:6px;min-width:0}
+.field label{font-size:12px;font-weight:600}
+.field input,.field select{width:100%;min-height:44px;padding:9px 11px;border:1px solid var(--line);border-radius:0;background:#fff;color:var(--ink);font:inherit}
+.field input:focus,.field select:focus{outline:2px solid #567561;outline-offset:1px}
+.field-grid+.field-grid,.delivery-fields{margin-top:14px}
+.field-help{margin:0 0 14px;color:var(--mute);font-size:12px}
+.order-totals{display:grid;gap:8px;margin-top:22px;padding-top:16px;border-top:1px solid var(--line)}
+.order-totals div{display:flex;justify-content:space-between;gap:16px}
+.order-totals .total{margin-top:4px;padding-top:12px;border-top:1px solid var(--line);font-size:18px;font-weight:600}
+.checkout-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.checkout-actions button,.checkout-actions a{width:100%;max-width:none;min-height:44px}
+.checkout-actions .btn{display:flex;align-items:center;justify-content:center;text-align:center;text-decoration:none}
+.checkout-status{min-height:1.5em;margin:0;color:var(--mute);font-size:12px}
+.checkout-disclaimer{margin:0;color:var(--mute);font-size:12px}
+.checkout-disclaimer strong{color:var(--ink)}
+#pay[hidden],#whatsapp-order[hidden],.test-checkout[hidden]{display:none}
+.test-checkout{padding:18px 20px;border:1px dashed #9a6b22;background:#fff9eb}
+.test-checkout h3{margin:0 0 6px;font-size:15px}
+.test-checkout p{margin:0 0 12px;color:#604a27;font-size:12px}
+.test-checkout .field{max-width:420px}
+.test-checkout select{width:100%;min-height:44px;padding:9px 11px;border:1px solid var(--line);border-radius:0;background:#fff;color:var(--ink);font:inherit}
+.test-checkout .btn{margin-top:12px}
+.empty{padding:26px 0}
+.empty{padding:26px 0}
+.note{min-height:1.5em;color:var(--mute);font-size:12px}
+footer{padding:22px 0;color:var(--mute);font-size:11px}
+@media(max-width:760px){.wrap{width:calc(100% - 32px)}main{width:calc(100% - 32px);padding-top:42px;padding-bottom:54px}.cart-shell{padding:18px 0}.item{grid-template-columns:minmax(0,1fr) auto;gap:10px}.item>span:last-child{grid-column:1/-1;text-align:right}.item-name{font-size:14px}.intro{margin-bottom:26px}.form-section{padding:18px 16px}.field-grid{grid-template-columns:1fr}.checkout-actions{grid-template-columns:1fr}.test-checkout{padding:16px}.test-checkout .btn{width:100%}}
+</style>
+<link rel="stylesheet" href="site-header.css">
+</head>
+<body>
+<div class="announce">LID & LASH CARE, MADE FOR EVERYDAY LIFE</div>
+<header class="site-header"><div class="wrap"><nav aria-label="Main navigation"><a href="LidHealth%20store.html#shop">Shop</a><a href="LidHealth%20store.html#about">Our story</a><a href="practitioners.html">Practitioners</a><a href="contact.html">Contact</a></nav><a class="brand" href="LidHealth%20store.html" aria-label="LidHealth home"><img class="logo" src="files/LID%20HEALTH%20LOGO.jpeg" alt="LidHealth, lid and lash hygiene"></a><a class="cart-link" href="cart.html" id="cart-link">Cart (0)</a></div></header>
+<main class="wrap">
+  <div class="intro">
+    <p class="eyebrow">Your selection</p>
+    <h1>Your cart.</h1>
+    <p>A few thoughtful essentials, gathered in one place.</p>
+  </div>
+  <section class="cart-shell" aria-label="Cart items">
+    <div class="cart-heading"><h2>Items</h2><span id="item-count"></span></div>
+    <div id="items" aria-live="polite"></div>
+    <p id="note" class="note" role="status"></p>
+  </section>
+  <section class="checkout-shell" id="checkout" aria-labelledby="checkout-title" hidden>
+    <div class="checkout-heading">
+      <p class="eyebrow">Delivery &amp; payment</p>
+      <h2 id="checkout-title">Complete your order.</h2>
+      <p>Choose delivery and enter your details to calculate the full total.</p>
+    </div>
+    <form class="checkout-form" id="checkout-form">
+      <section class="form-section" aria-labelledby="delivery-heading">
+        <h3 id="delivery-heading">How would you like your order delivered?</h3>
+        <div class="field">
+          <label for="delivery-method">Delivery option</label>
+          <select id="delivery-method" name="deliveryMethod" required>
+            <option value="">Select a delivery option</option>
+            <option value="courier">The Courier Guy · Locker-to-Door — R120</option>
+            <option value="pudo">PUDO · Locker-to-Locker — R80</option>
+          </select>
+        </div>
+        <div class="delivery-fields" id="courier-fields" hidden>
+          <p class="field-help">Enter the address where The Courier Guy should deliver your order.</p>
+          <div class="field-grid">
+            <div class="field"><label for="address">Street address</label><input id="address" name="address" autocomplete="street-address"></div>
+            <div class="field"><label for="suburb">Suburb</label><input id="suburb" name="suburb" autocomplete="address-level3"></div>
+            <div class="field"><label for="city">City / town</label><input id="city" name="city" autocomplete="address-level2"></div>
+            <div class="field"><label for="province">Province</label><input id="province" name="province" autocomplete="address-level1"></div>
+            <div class="field"><label for="postal-code">Postal code</label><input id="postal-code" name="postalCode" autocomplete="postal-code" inputmode="numeric"></div>
+          </div>
+        </div>
+        <div class="delivery-fields" id="pudo-fields" hidden>
+          <p class="field-help">Tell us which PUDO locker you want to collect your order from.</p>
+          <div class="field-grid">
+            <div class="field"><label for="pudo-locker">PUDO locker name or location</label><input id="pudo-locker" name="pudoLocker" autocomplete="off"></div>
+            <div class="field"><label for="pudo-city">Locker city / town</label><input id="pudo-city" name="pudoCity" autocomplete="address-level2"></div>
+          </div>
+        </div>
+      </section>
+      <section class="form-section" aria-labelledby="customer-heading">
+        <h3 id="customer-heading">Your details</h3>
+        <div class="field-grid">
+          <div class="field"><label for="first-name">First name</label><input id="first-name" name="firstName" autocomplete="given-name" required></div>
+          <div class="field"><label for="surname">Surname</label><input id="surname" name="surname" autocomplete="family-name" required></div>
+          <div class="field"><label for="customer-email">Email address</label><input id="customer-email" name="email" type="email" autocomplete="email" required></div>
+          <div class="field"><label for="customer-phone">Mobile number</label><input id="customer-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required></div>
+        </div>
+      </section>
+      <section class="form-section" aria-label="Order total">
+        <h3>Order total</h3>
+        <div class="order-totals">
+          <div><span>Products</span><span id="subtotal">R0</span></div>
+          <div><span id="delivery-label">Delivery (select an option)</span><span id="delivery-amount">R0</span></div>
+          <div class="total"><span>Total</span><span id="grand-total">R0</span></div>
+        </div>
+      </section>
+      <div class="checkout-actions">
+        <button class="btn" type="button" id="pay">Pay with PayFast</button>
+        <button class="ghost" type="button" id="whatsapp-order">Send order request by WhatsApp</button>
+      </div>
+      <section class="test-checkout" id="test-checkout" aria-labelledby="test-checkout-title" hidden>
+        <h3 id="test-checkout-title">Local test checkout</h3>
+        <p>Test mode only: no money is taken and no email is sent. The simulated receipt is not proof of payment.</p>
+        <div class="field">
+          <label for="test-outcome">Choose a simulated payment result</label>
+          <select id="test-outcome">
+            <option value="success">Successful payment</option>
+            <option value="cancelled">Payment cancelled</option>
+            <option value="failed">Payment failed</option>
+          </select>
+        </div>
+        <button class="btn" type="button" id="run-test-checkout">Run test checkout</button>
+      </section>
+      <p class="checkout-disclaimer"><strong>Payment and receipt:</strong> PayFast payment is verified by the secure payment service. A paid receipt is available only after verification. LidHealth will email your confirmation manually.</p>
+      <p class="checkout-status" id="checkout-status" role="status" aria-live="polite"></p>
+    </form>
+  </section>
+</main>
+<footer><div class="wrap">© 2026 LidHealth · <a href="contact.html">Contact us</a></div></footer>
+<script src="store-config.js"></script>
+<script src="cart-storage.js"></script>
+<script>
+const $=selector=>document.querySelector(selector),R=amount=>"R"+(amount%1?amount.toFixed(2):amount);
+const deliveryOptions={courier:{label:"The Courier Guy · Locker-to-Door",fee:120},pudo:{label:"PUDO · Locker-to-Locker",fee:80}};
+let cart=[];
+try{cart=LidHealthCart.load()}catch(error){$("#note").textContent=error.message}
+const checkout=$("#checkout"),checkoutForm=$("#checkout-form"),deliveryMethod=$("#delivery-method");
+const localTestMode=location.protocol==="file:"||["localhost","127.0.0.1"].includes(location.hostname);
+const testCheckoutEnabled=localTestMode||new URLSearchParams(location.search).get("test_checkout")==="1";
+$("#test-checkout").hidden=!testCheckoutEnabled;
+$("#pay").hidden=testCheckoutEnabled;
+$("#whatsapp-order").hidden=testCheckoutEnabled;
+function orderDetails(){
+  const data=new FormData(checkoutForm),method=deliveryMethod.value,delivery=deliveryOptions[method];
+  if(!checkoutForm.reportValidity()||!delivery)return null;
+  const deliveryDetails=method==="courier"
+    ?{address:data.get("address").trim(),suburb:data.get("suburb").trim(),city:data.get("city").trim(),province:data.get("province").trim(),postalCode:data.get("postalCode").trim()}
+    :{locker:data.get("pudoLocker").trim(),city:data.get("pudoCity").trim()};
+  const address=Object.values(deliveryDetails).filter(Boolean).join(", ");
+  return{
+    firstName:data.get("firstName").trim(),surname:data.get("surname").trim(),email:data.get("email").trim(),phone:data.get("phone").trim(),
+    deliveryMethod:method,deliveryLabel:delivery.label,deliveryFee:delivery.fee,address,deliveryDetails,
+    subtotal:cart.reduce((sum,item)=>sum+item.price*item.qty,0),
+    items:cart.map(item=>({...item}))
+  };
+}
+function updateTotals(){
+  const subtotal=cart.reduce((sum,item)=>sum+item.price*item.qty,0),delivery=deliveryOptions[deliveryMethod.value];
+  $("#subtotal").textContent=R(subtotal);
+  $("#delivery-label").textContent=delivery?delivery.label:"Delivery (select an option)";
+  $("#delivery-amount").textContent=R(delivery?.fee||0);
+  $("#grand-total").textContent=R(subtotal+(delivery?.fee||0));
+}
+function updateDeliveryFields(){
+  for(const [method,id] of [["courier","courier-fields"],["pudo","pudo-fields"]]){
+    const section=$("#"+id),active=deliveryMethod.value===method;
+    section.hidden=!active;
+    section.querySelectorAll("input").forEach(input=>{input.required=active});
+  }
+  updateTotals();
+}
+function orderText(order){
+  return[
+    "LidHealth order request",
+    `Name: ${order.firstName} ${order.surname}`,
+    `Email: ${order.email}`,
+    `Phone: ${order.phone}`,
+    `Delivery: ${order.deliveryLabel}`,
+    `Delivery details: ${order.address}`,
+    "",
+    "Items:",
+    ...order.items.map(item=>`${item.qty} x ${item.name} (${item.label}) — ${R(item.qty*item.price)}`),
+    `Products: ${R(order.subtotal)}`,
+    `Delivery: ${R(order.deliveryFee)}`,
+    `Total: ${R(order.subtotal+order.deliveryFee)}`,
+    "",
+    "Please confirm availability and payment instructions."
+  ].join("\n");
+}
+deliveryMethod.addEventListener("change",updateDeliveryFields);
+$("#whatsapp-order").addEventListener("click",()=>{
+  const order=orderDetails();
+  if(!order)return;
+  window.open(`https://wa.me/27723900986?text=${encodeURIComponent(orderText(order))}`,"_blank","noopener,noreferrer");
+  $("#checkout-status").textContent="WhatsApp should open with the order details. Review and send the message to place your request.";
+});
+function saveCart(previous){
+  try{LidHealthCart.save(cart);$("#note").textContent="";draw();return true}
+  catch(error){cart=previous;$("#note").textContent=error.message;draw();return false}
+}
+function draw(){
+  const items=$("#items");items.replaceChildren();
+  const count=cart.reduce((sum,item)=>sum+item.qty,0);
+  $("#item-count").textContent=`${count} ${count===1?"item":"items"}`;
+  $("#cart-link").textContent=`Cart (${count})`;
+  if(!cart.length){const empty=document.createElement("p");empty.className="empty";empty.textContent="Your cart is empty. Add a product from the shop.";items.appendChild(empty);checkout.hidden=true;return}
+  checkout.hidden=false;
+  cart.forEach((item,index)=>{
+    const row=document.createElement("div");row.className="item";
+    const name=document.createElement("span");name.className="item-name";name.textContent=`${item.name}, ${item.label}`;
+    const quantity=document.createElement("span");quantity.className="quantity";
+    const fewer=document.createElement("button");fewer.type="button";fewer.className="ghost";fewer.dataset.change=`${index}:-1`;fewer.setAttribute("aria-label",`Remove one ${item.name}, ${item.label}`);fewer.textContent="−";
+    const count=document.createElement("span");count.textContent=String(item.qty);
+    const more=document.createElement("button");more.type="button";more.className="ghost";more.dataset.change=`${index}:1`;more.setAttribute("aria-label",`Add one ${item.name}, ${item.label}`);more.textContent="+";
+    quantity.append(fewer,count,more);
+    const price=document.createElement("span");price.textContent=R(item.price*item.qty);
+    row.append(name,quantity,price);items.appendChild(row);
+  });
+  updateTotals();
+}
+$("#items").addEventListener("click",event=>{
+  const button=event.target.closest("button");
+  if(!button)return;
+  if(!button.dataset.change)return;
+  const previous=cart.map(item=>({...item}));
+  const[index,delta]=button.dataset.change.split(":").map(Number);
+  cart[index].qty+=delta;
+  if(cart[index].qty<1)cart.splice(index,1);
+  saveCart(previous);
+});
+function fillTestDetails(){
+  checkoutForm.elements.namedItem("firstName").value="Test";
+  checkoutForm.elements.namedItem("surname").value="Customer";
+  checkoutForm.elements.namedItem("email").value="test@example.invalid";
+  checkoutForm.elements.namedItem("phone").value="0000000000";
+  deliveryMethod.value="pudo";
+  updateDeliveryFields();
+  checkoutForm.elements.namedItem("pudoLocker").value="DEMO LOCKER — TEST ONLY";
+  checkoutForm.elements.namedItem("pudoCity").value="Demo City";
+}
+function simulateTestCheckout(){
+  const outcome=$("#test-outcome").value;
+  fillTestDetails();
+  const order=orderDetails();
+  if(!order)return;
+  if(outcome!=="success"){
+    $("#checkout-status").textContent=outcome==="cancelled"
+      ?"Test payment cancelled. No payment was taken and no receipt was created."
+      :"Test payment failed. No payment was taken and no receipt was created.";
+    return;
+  }
+  const orderId=`TEST-${Date.now()}`;
+  const receipt={
+    orderId,
+    paymentReference:`SIM-${Date.now()}`,
+    paidAt:new Date().toISOString(),
+    customer:{firstName:order.firstName,surname:order.surname,email:order.email,phone:order.phone},
+    deliveryMethod:order.deliveryMethod,
+    deliveryLabel:order.deliveryLabel,
+    deliveryDetails:order.deliveryDetails,
+    items:order.items.map(item=>({...item,lineTotalCents:Math.round(item.qty*item.price*100)})),
+    subtotalCents:Math.round(order.subtotal*100),
+    deliveryCents:Math.round(order.deliveryFee*100),
+    totalCents:Math.round((order.subtotal+order.deliveryFee)*100)
+  };
+  sessionStorage.setItem(`lidhealth-test-receipt:${orderId}`,JSON.stringify(receipt));
+  const returnParams=new URLSearchParams({test_payment:"success",order_id});
+  if(!localTestMode)returnParams.set("test_checkout","1");
+  location.href=`payment-return.html?${returnParams}`;
+}
+$("#run-test-checkout").addEventListener("click",simulateTestCheckout);
+async function pay(){
+  const note=$("#checkout-status"),order=orderDetails();
+  if(!order)return;
+  if(!cart.length){note.textContent="Your cart is empty.";return}
+  if(!CFG.supabaseUrl||!CFG.supabaseAnonKey){note.textContent="Secure checkout is not configured yet. Please send your order request by WhatsApp.";return}
+  const button=$("#pay");button.disabled=true;note.textContent="Preparing secure payment…";
+  try{
+    const response=await fetch(`${CFG.supabaseUrl.replace(/\/+$/,"")}/functions/v1/create-payment`,{
+      method:"POST",
+      headers:{"Content-Type":"application/json","apikey":CFG.supabaseAnonKey,"Authorization":`Bearer ${CFG.supabaseAnonKey}`},
+      body:JSON.stringify({
+        customer:{firstName:order.firstName,surname:order.surname,email:order.email,phone:order.phone},
+        deliveryMethod:order.deliveryMethod,deliveryDetails:order.deliveryDetails,
+        items:order.items.map(item=>({k:item.k,qty:item.qty}))
+      })
+    });
+    let result;
+    try{result=await response.json()}catch{throw new Error("Secure checkout returned an unreadable response.")}
+    if(!response.ok)throw new Error(result.error||"Could not prepare payment. Please try again.");
+    sessionStorage.setItem(`lidhealth-receipt:${result.orderId}`,result.receiptToken);
+    const form=document.createElement("form");form.method="post";form.action=result.paymentUrl;
+    for(const[name,value]of Object.entries(result.fields)){
+      const input=document.createElement("input");input.type="hidden";input.name=name;input.value=value;form.appendChild(input);
+    }
+    document.body.appendChild(form);form.submit();
+  }catch(error){
+    note.textContent=error instanceof Error?error.message:"Secure checkout could not be started.";
+    button.disabled=false;
+  }
+}
+$("#pay").addEventListener("click",pay);
+if(new URLSearchParams(location.search).get("payment")==="cancelled"){
+  $("#checkout-status").textContent="Payment was cancelled. Your order has not been marked as paid.";
+}
+draw();
+</script>
+</body>
+</html>
