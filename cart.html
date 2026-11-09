@@ -1,11 +1,17 @@
+---
+permalink: /cart/
+layout: null
+---
 <!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<script>if(location.protocol!=="file:")document.write('<base href="/">')</script>
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="canonical" href="https://lidhealth.org/cart/">
 <title>Your Cart | LidHealth</title>
 <style>
 :root{color-scheme:light dark;--bg:#faf8f4;--ink:#28242a;--mute:#716a70;--pu:#553b5c;--tile:#f0ebe6;--line:#e8e1db;--on:#fff;--accent:#a67d67;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -38,7 +44,6 @@ main{padding-top:64px;padding-bottom:76px}
 .quantity button{width:36px;min-height:36px;padding:0;font-size:18px}
 .item>span:last-child{min-width:64px;text-align:right;font-variant-numeric:tabular-nums}
 .total{display:flex;justify-content:space-between;font-size:20px;font-weight:600;padding:22px 0 16px;font-variant-numeric:tabular-nums}
-#pay{width:100%}
 .empty{padding:26px 0;color:var(--mute)}
 .note{min-height:1.5em;color:var(--mute);font-size:14px}
 footer{padding:22px 0;color:var(--mute);font-size:12px;letter-spacing:.08em;text-transform:uppercase;border-top:1px solid var(--line)}
@@ -98,24 +103,17 @@ main{width:min(900px,calc(100% - 48px));padding-top:58px;padding-bottom:82px}
 .checkout-status{min-height:1.5em;margin:0;color:var(--mute);font-size:12px}
 .checkout-disclaimer{margin:0;color:var(--mute);font-size:12px}
 .checkout-disclaimer strong{color:var(--ink)}
-#pay[hidden],#whatsapp-order[hidden],.test-checkout[hidden]{display:none}
-.test-checkout{padding:18px 20px;border:1px dashed #9a6b22;background:#fff9eb}
-.test-checkout h3{margin:0 0 6px;font-size:15px}
-.test-checkout p{margin:0 0 12px;color:#604a27;font-size:12px}
-.test-checkout .field{max-width:420px}
-.test-checkout select{width:100%;min-height:44px;padding:9px 11px;border:1px solid var(--line);border-radius:0;background:#fff;color:var(--ink);font:inherit}
-.test-checkout .btn{margin-top:12px}
 .empty{padding:26px 0}
 .empty{padding:26px 0}
 .note{min-height:1.5em;color:var(--mute);font-size:12px}
 footer{padding:22px 0;color:var(--mute);font-size:11px}
-@media(max-width:760px){.wrap{width:calc(100% - 32px)}main{width:calc(100% - 32px);padding-top:42px;padding-bottom:54px}.cart-shell{padding:18px 0}.item{grid-template-columns:minmax(0,1fr) auto;gap:10px}.item>span:last-child{grid-column:1/-1;text-align:right}.item-name{font-size:14px}.intro{margin-bottom:26px}.form-section{padding:18px 16px}.field-grid{grid-template-columns:1fr}.checkout-actions{grid-template-columns:1fr}.test-checkout{padding:16px}.test-checkout .btn{width:100%}}
+@media(max-width:760px){.wrap{width:calc(100% - 32px)}main{width:calc(100% - 32px);padding-top:42px;padding-bottom:54px}.cart-shell{padding:18px 0}.item{grid-template-columns:minmax(0,1fr) auto;gap:10px}.item>span:last-child{grid-column:1/-1;text-align:right}.item-name{font-size:14px}.intro{margin-bottom:26px}.form-section{padding:18px 16px}.field-grid{grid-template-columns:1fr}.checkout-actions{grid-template-columns:1fr}}
 </style>
 <link rel="stylesheet" href="site-header.css">
 </head>
 <body>
 <div class="announce">LID & LASH CARE, MADE FOR EVERYDAY LIFE</div>
-<header class="site-header"><div class="wrap"><nav aria-label="Main navigation"><a href="LidHealth%20store.html#shop">Shop</a><a href="LidHealth%20store.html#about">Our story</a><a href="practitioners.html">Practitioners</a><a href="contact.html">Contact</a></nav><a class="brand" href="LidHealth%20store.html" aria-label="LidHealth home"><img class="logo" src="files/LID%20HEALTH%20LOGO.jpeg" alt="LidHealth, lid and lash hygiene"></a><a class="cart-link" href="cart.html" id="cart-link">Cart (0)</a></div></header>
+<header class="site-header"><div class="wrap"><nav aria-label="Main navigation"><a href="/#shop">Shop</a><a href="/#about">Our story</a><a href="/practitioners/">Practitioners</a><a href="/contact/">Contact</a></nav><a class="brand" href="/" aria-label="LidHealth home"><img class="logo" src="files/LID%20HEALTH%20LOGO.jpeg" alt="LidHealth, lid and lash hygiene"></a><a class="cart-link" href="/cart/" id="cart-link">Cart (0)</a></div></header>
 <main class="wrap">
   <div class="intro">
     <p class="eyebrow">Your selection</p>
@@ -129,9 +127,9 @@ footer{padding:22px 0;color:var(--mute);font-size:11px}
   </section>
   <section class="checkout-shell" id="checkout" aria-labelledby="checkout-title" hidden>
     <div class="checkout-heading">
-      <p class="eyebrow">Delivery &amp; payment</p>
-      <h2 id="checkout-title">Complete your order.</h2>
-      <p>Choose delivery and enter your details to calculate the full total.</p>
+      <p class="eyebrow">Order details</p>
+      <h2 id="checkout-title">Send your order request.</h2>
+      <p>Choose delivery and enter your details to prepare your order summary.</p>
     </div>
     <form class="checkout-form" id="checkout-form">
       <section class="form-section" aria-labelledby="delivery-heading">
@@ -180,29 +178,15 @@ footer{padding:22px 0;color:var(--mute);font-size:11px}
         </div>
       </section>
       <div class="checkout-actions">
-        <button class="btn" type="button" id="pay">Pay with PayFast</button>
-        <button class="ghost" type="button" id="whatsapp-order">Send order request by WhatsApp</button>
+        <button class="btn" type="button" id="whatsapp-order">Review and send order on WhatsApp</button>
+        <a class="ghost" id="whatsapp-fallback" target="_blank" rel="noopener noreferrer" hidden>Open the order in WhatsApp</a>
       </div>
-      <section class="test-checkout" id="test-checkout" aria-labelledby="test-checkout-title" hidden>
-        <h3 id="test-checkout-title">Local test checkout</h3>
-        <p>Test mode only: no money is taken and no email is sent. The simulated receipt is not proof of payment.</p>
-        <div class="field">
-          <label for="test-outcome">Choose a simulated payment result</label>
-          <select id="test-outcome">
-            <option value="success">Successful payment</option>
-            <option value="cancelled">Payment cancelled</option>
-            <option value="failed">Payment failed</option>
-          </select>
-        </div>
-        <button class="btn" type="button" id="run-test-checkout">Run test checkout</button>
-      </section>
-      <p class="checkout-disclaimer"><strong>Payment and receipt:</strong> PayFast payment is verified by the secure payment service. A paid receipt is available only after verification. LidHealth will email your confirmation manually.</p>
+      <p class="checkout-disclaimer"><strong>Order request:</strong> WhatsApp will open with your order details filled in. Review them and tap Send to submit your request. LidHealth will confirm availability, delivery and payment instructions; no payment is made on this page.</p>
       <p class="checkout-status" id="checkout-status" role="status" aria-live="polite"></p>
     </form>
   </section>
 </main>
-<footer><div class="wrap">© 2026 LidHealth · <a href="contact.html">Contact us</a></div></footer>
-<script src="store-config.js"></script>
+<footer><div class="wrap">© 2026 LidHealth · <a href="/contact/">Contact us</a></div></footer>
 <script src="cart-storage.js"></script>
 <script>
 const $=selector=>document.querySelector(selector),R=amount=>"R"+(amount%1?amount.toFixed(2):amount);
@@ -210,11 +194,6 @@ const deliveryOptions={courier:{label:"The Courier Guy · Locker-to-Door",fee:12
 let cart=[];
 try{cart=LidHealthCart.load()}catch(error){$("#note").textContent=error.message}
 const checkout=$("#checkout"),checkoutForm=$("#checkout-form"),deliveryMethod=$("#delivery-method");
-const localTestMode=location.protocol==="file:"||["localhost","127.0.0.1"].includes(location.hostname);
-const testCheckoutEnabled=localTestMode||new URLSearchParams(location.search).get("test_checkout")==="1";
-$("#test-checkout").hidden=!testCheckoutEnabled;
-$("#pay").hidden=testCheckoutEnabled;
-$("#whatsapp-order").hidden=testCheckoutEnabled;
 function orderDetails(){
   const data=new FormData(checkoutForm),method=deliveryMethod.value,delivery=deliveryOptions[method];
   if(!checkoutForm.reportValidity()||!delivery)return null;
@@ -246,28 +225,42 @@ function updateDeliveryFields(){
 }
 function orderText(order){
   return[
-    "LidHealth order request",
-    `Name: ${order.firstName} ${order.surname}`,
+    "LIDHEALTH — ORDER REQUEST",
+    "Status: Pending confirmation — not paid",
+    "",
+    `Customer: ${order.firstName} ${order.surname}`,
     `Email: ${order.email}`,
     `Phone: ${order.phone}`,
-    `Delivery: ${order.deliveryLabel}`,
-    `Delivery details: ${order.address}`,
     "",
-    "Items:",
+    `Delivery method: ${order.deliveryLabel}`,
+    `Delivery address / locker: ${order.address}`,
+    "",
+    "ORDER SUMMARY",
     ...order.items.map(item=>`${item.qty} x ${item.name} (${item.label}) — ${R(item.qty*item.price)}`),
     `Products: ${R(order.subtotal)}`,
     `Delivery: ${R(order.deliveryFee)}`,
-    `Total: ${R(order.subtotal+order.deliveryFee)}`,
+    `TOTAL DUE: ${R(order.subtotal+order.deliveryFee)}`,
     "",
-    "Please confirm availability and payment instructions."
+    "Please confirm product availability, delivery and payment instructions. This message is an order request, not a payment receipt."
   ].join("\n");
 }
 deliveryMethod.addEventListener("change",updateDeliveryFields);
 $("#whatsapp-order").addEventListener("click",()=>{
   const order=orderDetails();
   if(!order)return;
-  window.open(`https://wa.me/27723900986?text=${encodeURIComponent(orderText(order))}`,"_blank","noopener,noreferrer");
-  $("#checkout-status").textContent="WhatsApp should open with the order details. Review and send the message to place your request.";
+  if(!cart.length){$("#checkout-status").textContent="Your cart is empty.";return}
+  const url=`https://wa.me/27723900986?text=${encodeURIComponent(orderText(order))}`;
+  const fallback=$("#whatsapp-fallback");
+  fallback.href=url;
+  fallback.hidden=true;
+  const whatsappWindow=window.open(url,"_blank");
+  if(!whatsappWindow){
+    fallback.hidden=false;
+    $("#checkout-status").textContent="Your browser blocked the WhatsApp window. Use the link above to open your order.";
+    return;
+  }
+  whatsappWindow.opener=null;
+  $("#checkout-status").textContent="WhatsApp opened with your order request. Review it and tap Send; your cart will stay saved until you clear it.";
 });
 function saveCart(previous){
   try{LidHealthCart.save(cart);$("#note").textContent="";draw();return true}
@@ -303,81 +296,6 @@ $("#items").addEventListener("click",event=>{
   if(cart[index].qty<1)cart.splice(index,1);
   saveCart(previous);
 });
-function fillTestDetails(){
-  checkoutForm.elements.namedItem("firstName").value="Test";
-  checkoutForm.elements.namedItem("surname").value="Customer";
-  checkoutForm.elements.namedItem("email").value="test@example.invalid";
-  checkoutForm.elements.namedItem("phone").value="0000000000";
-  deliveryMethod.value="pudo";
-  updateDeliveryFields();
-  checkoutForm.elements.namedItem("pudoLocker").value="DEMO LOCKER — TEST ONLY";
-  checkoutForm.elements.namedItem("pudoCity").value="Demo City";
-}
-function simulateTestCheckout(){
-  const outcome=$("#test-outcome").value;
-  fillTestDetails();
-  const order=orderDetails();
-  if(!order)return;
-  if(outcome!=="success"){
-    $("#checkout-status").textContent=outcome==="cancelled"
-      ?"Test payment cancelled. No payment was taken and no receipt was created."
-      :"Test payment failed. No payment was taken and no receipt was created.";
-    return;
-  }
-  const orderId=`TEST-${Date.now()}`;
-  const receipt={
-    orderId,
-    paymentReference:`SIM-${Date.now()}`,
-    paidAt:new Date().toISOString(),
-    customer:{firstName:order.firstName,surname:order.surname,email:order.email,phone:order.phone},
-    deliveryMethod:order.deliveryMethod,
-    deliveryLabel:order.deliveryLabel,
-    deliveryDetails:order.deliveryDetails,
-    items:order.items.map(item=>({...item,lineTotalCents:Math.round(item.qty*item.price*100)})),
-    subtotalCents:Math.round(order.subtotal*100),
-    deliveryCents:Math.round(order.deliveryFee*100),
-    totalCents:Math.round((order.subtotal+order.deliveryFee)*100)
-  };
-  sessionStorage.setItem(`lidhealth-test-receipt:${orderId}`,JSON.stringify(receipt));
-  const returnParams=new URLSearchParams({test_payment:"success",order_id});
-  if(!localTestMode)returnParams.set("test_checkout","1");
-  location.href=`payment-return.html?${returnParams}`;
-}
-$("#run-test-checkout").addEventListener("click",simulateTestCheckout);
-async function pay(){
-  const note=$("#checkout-status"),order=orderDetails();
-  if(!order)return;
-  if(!cart.length){note.textContent="Your cart is empty.";return}
-  if(!CFG.supabaseUrl||!CFG.supabaseAnonKey){note.textContent="Secure checkout is not configured yet. Please send your order request by WhatsApp.";return}
-  const button=$("#pay");button.disabled=true;note.textContent="Preparing secure payment…";
-  try{
-    const response=await fetch(`${CFG.supabaseUrl.replace(/\/+$/,"")}/functions/v1/create-payment`,{
-      method:"POST",
-      headers:{"Content-Type":"application/json","apikey":CFG.supabaseAnonKey,"Authorization":`Bearer ${CFG.supabaseAnonKey}`},
-      body:JSON.stringify({
-        customer:{firstName:order.firstName,surname:order.surname,email:order.email,phone:order.phone},
-        deliveryMethod:order.deliveryMethod,deliveryDetails:order.deliveryDetails,
-        items:order.items.map(item=>({k:item.k,qty:item.qty}))
-      })
-    });
-    let result;
-    try{result=await response.json()}catch{throw new Error("Secure checkout returned an unreadable response.")}
-    if(!response.ok)throw new Error(result.error||"Could not prepare payment. Please try again.");
-    sessionStorage.setItem(`lidhealth-receipt:${result.orderId}`,result.receiptToken);
-    const form=document.createElement("form");form.method="post";form.action=result.paymentUrl;
-    for(const[name,value]of Object.entries(result.fields)){
-      const input=document.createElement("input");input.type="hidden";input.name=name;input.value=value;form.appendChild(input);
-    }
-    document.body.appendChild(form);form.submit();
-  }catch(error){
-    note.textContent=error instanceof Error?error.message:"Secure checkout could not be started.";
-    button.disabled=false;
-  }
-}
-$("#pay").addEventListener("click",pay);
-if(new URLSearchParams(location.search).get("payment")==="cancelled"){
-  $("#checkout-status").textContent="Payment was cancelled. Your order has not been marked as paid.";
-}
 draw();
 </script>
 </body>
