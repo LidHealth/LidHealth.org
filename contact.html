@@ -71,12 +71,14 @@ footer{padding:22px 0;border-top:1px solid var(--line);color:var(--mute);font-si
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important}}
  </style>
 <link rel="stylesheet" href="site-header.css">
+<script>document.addEventListener("DOMContentLoaded",()=>{document.querySelectorAll(".site-header").forEach(header=>{const toggle=header.querySelector(".menu-toggle"),nav=header.querySelector("#primary-navigation");if(!toggle||!nav)return;const setOpen=open=>{header.classList.toggle("menu-open",open);toggle.setAttribute("aria-expanded",String(open));toggle.setAttribute("aria-label",open?"Close menu":"Open menu")};toggle.addEventListener("click",()=>setOpen(toggle.getAttribute("aria-expanded")!=="true"));nav.addEventListener("click",event=>{if(event.target.closest("a"))setOpen(false)});document.addEventListener("keydown",event=>{if(event.key==="Escape")setOpen(false)});document.addEventListener("click",event=>{if(!header.contains(event.target))setOpen(false)});window.matchMedia("(min-width: 761px)").addEventListener("change",event=>{if(event.matches)setOpen(false)})})});</script>
 </head>
 <body>
 <div class="announce">LID &amp; LASH CARE, MADE FOR EVERYDAY LIFE</div>
 <header class="site-header">
 <div class="wrap">
-<nav aria-label="Main navigation">
+<button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="primary-navigation"><span></span><span></span><span></span></button>
+<nav id="primary-navigation" aria-label="Main navigation">
 <a href="/#shop">Shop</a>
 <a href="/#about">Our story</a>
 <a href="/practitioners/">Practitioners</a>
