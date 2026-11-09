@@ -250,7 +250,7 @@ $("#whatsapp-order").addEventListener("click",()=>{
   const order=orderDetails();
   if(!order)return;
   if(!cart.length){$("#checkout-status").textContent="Your cart is empty.";return}
-  const url=`https://wa.me/27723900986?text=${encodeURIComponent(orderText(order))}`;
+  const url=`https://wa.me/27720675927?text=${encodeURIComponent(orderText(order))}`;
   const fallback=$("#whatsapp-fallback");
   fallback.href=url;
   fallback.hidden=true;
