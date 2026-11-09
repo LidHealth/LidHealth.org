@@ -97,7 +97,7 @@ main{width:min(900px,calc(100% - 48px));padding-top:58px;padding-bottom:82px}
 .order-totals{display:grid;gap:8px;margin-top:22px;padding-top:16px;border-top:1px solid var(--line)}
 .order-totals div{display:flex;justify-content:space-between;gap:16px}
 .order-totals .total{margin-top:4px;padding-top:12px;border-top:1px solid var(--line);font-size:18px;font-weight:600}
-.checkout-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.checkout-actions{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:10px}
 .checkout-actions button,.checkout-actions a{width:100%;max-width:none;min-height:44px}
 .checkout-actions .btn{display:flex;align-items:center;justify-content:center;text-align:center;text-decoration:none}
 .checkout-status{min-height:1.5em;margin:0;color:var(--mute);font-size:12px}
@@ -179,10 +179,11 @@ footer{padding:22px 0;color:var(--mute);font-size:11px}
         </div>
       </section>
       <div class="checkout-actions">
-        <button class="btn" type="button" id="whatsapp-order">Review and send order on WhatsApp</button>
-        <a class="ghost" id="whatsapp-fallback" target="_blank" rel="noopener noreferrer" hidden>Open the order in WhatsApp</a>
+        <button class="btn" type="button" id="whatsapp-order">Share invoice on WhatsApp</button>
+        <a class="ghost" id="invoice-download" download hidden>Download invoice photo</a>
+        <a class="ghost" id="whatsapp-fallback" target="_blank" rel="noopener noreferrer" hidden>Continue to WhatsApp with order details</a>
       </div>
-      <p class="checkout-disclaimer"><strong>Order request:</strong> WhatsApp will open with your order details filled in. Review them and tap Send to submit your request. LidHealth will confirm availability, delivery and payment instructions; no payment is made on this page.</p>
+      <p class="checkout-disclaimer"><strong>Order request:</strong> Share the invoice photo and choose WhatsApp, then select the LidHealth chat and tap Send. If photo sharing is unavailable, download the invoice photo and attach it in WhatsApp. LidHealth will confirm availability, delivery and payment instructions; no payment is made on this page.</p>
       <p class="checkout-status" id="checkout-status" role="status" aria-live="polite"></p>
     </form>
   </section>
@@ -224,44 +225,161 @@ function updateDeliveryFields(){
   }
   updateTotals();
 }
-function orderText(order){
+function orderMetadata(){
+  const date=new Date(),pad=value=>String(value).padStart(2,"0");
+  return{
+    date,
+    reference:`LH-${date.getFullYear()}${pad(date.getMonth()+1)}${pad(date.getDate())}-${pad(date.getHours())}${pad(date.getMinutes())}${pad(date.getSeconds())}`,
+    formattedDate:new Intl.DateTimeFormat("en-ZA",{dateStyle:"long"}).format(date)
+  };
+}
+function orderText(order,metadata){
   return[
-    "LIDHEALTH — ORDER REQUEST",
-    "Status: Pending confirmation — not paid",
+    "*LIDHEALTH*",
+    "*ORDER REQUEST*",
+    `Order reference: ${metadata.reference}`,
+    `Date: ${metadata.formattedDate}`,
+    "Status: Pending confirmation",
     "",
-    `Customer: ${order.firstName} ${order.surname}`,
+    "*CUSTOMER*",
+    `Name: ${order.firstName} ${order.surname}`,
     `Email: ${order.email}`,
-    `Phone: ${order.phone}`,
+    `Mobile: ${order.phone}`,
     "",
-    `Delivery method: ${order.deliveryLabel}`,
-    `Delivery address / locker: ${order.address}`,
+    "*DELIVERY*",
+    `Method: ${order.deliveryLabel}`,
+    `Address / locker: ${order.address}`,
     "",
-    "ORDER SUMMARY",
-    ...order.items.map(item=>`${item.qty} x ${item.name} (${item.label}) — ${R(item.qty*item.price)}`),
-    `Products: ${R(order.subtotal)}`,
-    `Delivery: ${R(order.deliveryFee)}`,
-    `TOTAL DUE: ${R(order.subtotal+order.deliveryFee)}`,
+    "*ITEMIZED SUMMARY*",
+    ...order.items.flatMap((item,index)=>[
+      `${index+1}. ${item.name} (${item.label})`,
+      `   Quantity: ${item.qty}`,
+      `   Unit price: ${R(item.price)}`,
+      `   Amount: ${R(item.qty*item.price)}`
+    ]),
     "",
-    "Please confirm product availability, delivery and payment instructions. This message is an order request, not a payment receipt."
+    `Products subtotal: ${R(order.subtotal)}`,
+    `Shipping & handling: ${R(order.deliveryFee)}`,
+    `*TOTAL DUE: ${R(order.subtotal+order.deliveryFee)}*`,
+    "",
+    "*PAYMENT*",
+    "Payment instructions will be shared after product availability and delivery are confirmed.",
+    "This is an order request, not a payment receipt."
   ].join("\n");
 }
+function invoiceImage(order,metadata){
+  const width=1080,margin=76,rowHeight=112,tableTop=390;
+  const height=860+order.items.length*rowHeight;
+  const canvas=document.createElement("canvas");
+  canvas.width=width;canvas.height=height;
+  const context=canvas.getContext("2d");
+  if(!context)throw new Error("Your browser could not create the invoice image.");
+  context.fillStyle="#f3f5f2";context.fillRect(0,0,width,height);
+  context.fillStyle="#fff";context.fillRect(36,36,width-72,height-72);
+  context.fillStyle="#4b2864";context.fillRect(36,36,width-72,18);
+  const text=(value,x,y,font,color="#252925")=>{context.font=font;context.fillStyle=color;context.fillText(value,x,y)};
+  const wrap=(value,maxWidth,font)=>{
+    context.font=font;
+    const lines=[];let line="";
+    for(const word of String(value).split(/\s+/)){
+      const next=line?`${line} ${word}`:word;
+      if(line&&context.measureText(next).width>maxWidth){lines.push(line);line=word}else line=next;
+    }
+    if(line)lines.push(line);
+    return lines;
+  };
+  text("LIDHEALTH",margin,112,"700 24px Arial","#4b2864");
+  text("LID & LASH HYGIENE",margin,148,"500 16px Arial","#737a74");
+  context.textAlign="right";
+  text("ORDER REQUEST",width-margin,112,"700 21px Arial","#252925");
+  text(`Reference  ${metadata.reference}`,width-margin,148,"16px Arial","#737a74");
+  text(metadata.formattedDate,width-margin,176,"16px Arial","#737a74");
+  context.textAlign="left";
+  context.fillStyle="#f3f5f2";context.fillRect(margin,210,width-margin*2,146);
+  text("CUSTOMER",margin+20,244,"700 14px Arial","#567561");
+  text(`${order.firstName} ${order.surname}`,margin+20,277,"600 21px Arial");
+  text(`${order.email}  ·  ${order.phone}`,margin+20,310,"16px Arial","#737a74");
+  text("DELIVERY",width/2+12,244,"700 14px Arial","#567561");
+  text(order.deliveryLabel,width/2+12,277,"600 18px Arial");
+  for(const [index,line] of wrap(order.address,width/2-margin-34,"15px Arial").slice(0,2).entries())text(line,width/2+12,310+index*22,"15px Arial","#737a74");
+  context.fillStyle="#4b2864";context.fillRect(margin,tableTop,width-margin*2,52);
+  text("ITEM DESCRIPTION",margin+16,tableTop+33,"700 13px Arial","#fff");
+  context.textAlign="right";
+  text("QTY",width-424,tableTop+33,"700 13px Arial","#fff");
+  text("UNIT PRICE",width-238,tableTop+33,"700 13px Arial","#fff");
+  text("AMOUNT",width-margin-16,tableTop+33,"700 13px Arial","#fff");
+  context.textAlign="left";
+  order.items.forEach((item,index)=>{
+    const y=tableTop+52+index*rowHeight;
+    context.fillStyle=index%2?"#fff":"#fafbf9";context.fillRect(margin,y,width-margin*2,rowHeight);
+    const description=wrap(`${item.name} · ${item.label}`,width-margin*2-510,"600 17px Arial");
+    description.slice(0,3).forEach((line,lineIndex)=>text(line,margin+16,y+39+lineIndex*24,"600 17px Arial"));
+    context.textAlign="right";
+    text(String(item.qty),width-424,y+43,"17px Arial");
+    text(R(item.price),width-238,y+43,"17px Arial");
+    text(R(item.qty*item.price),width-margin-16,y+43,"600 17px Arial");
+    context.textAlign="left";
+    context.strokeStyle="#e6e9e5";context.beginPath();context.moveTo(margin,y+rowHeight);context.lineTo(width-margin,y+rowHeight);context.stroke();
+  });
+  let totalY=tableTop+52+order.items.length*rowHeight+52;
+  const totalLine=(label,value,bold=false)=>{
+    text(label, width-470,totalY,bold?"700 19px Arial":"16px Arial",bold?"#252925":"#737a74");
+    context.textAlign="right";
+    text(value,width-margin-16,totalY,bold?"700 24px Arial":"17px Arial",bold?"#4b2864":"#252925");
+    context.textAlign="left";
+    totalY+=bold?54:38;
+  };
+  totalLine("Products subtotal",R(order.subtotal));
+  totalLine("Shipping & handling",R(order.deliveryFee));
+  totalLine("TOTAL DUE",R(order.subtotal+order.deliveryFee),true);
+  context.fillStyle="#f3f5f2";context.fillRect(margin,totalY+4,width-margin*2,86);
+  text("PENDING CONFIRMATION",margin+20,totalY+38,"700 14px Arial","#567561");
+  text("Payment instructions will follow once availability and delivery are confirmed.",margin+20,totalY+64,"15px Arial","#737a74");
+  text("This is an order request, not a payment receipt.",margin,height-67,"14px Arial","#737a74");
+  context.textAlign="right";
+  text("LidHealth  ·  Thank you for choosing us",width-margin,height-67,"14px Arial","#737a74");
+  context.textAlign="left";
+  const encoded=canvas.toDataURL("image/png").split(",")[1];
+  const bytes=Uint8Array.from(atob(encoded),character=>character.charCodeAt(0));
+  return new File([bytes],`LidHealth-${metadata.reference}.png`,{type:"image/png"});
+}
+let invoiceUrl;
+function showInvoiceDownload(file){
+  if(invoiceUrl)URL.revokeObjectURL(invoiceUrl);
+  invoiceUrl=URL.createObjectURL(file);
+  const link=$("#invoice-download");
+  link.href=invoiceUrl;
+  link.download=file.name;
+  link.hidden=false;
+}
 deliveryMethod.addEventListener("change",updateDeliveryFields);
-$("#whatsapp-order").addEventListener("click",()=>{
+$("#whatsapp-order").addEventListener("click",async()=>{
   const order=orderDetails();
   if(!order)return;
   if(!cart.length){$("#checkout-status").textContent="Your cart is empty.";return}
-  const url=`https://wa.me/27720675927?text=${encodeURIComponent(orderText(order))}`;
+  const metadata=orderMetadata();
+  let file;
+  try{file=invoiceImage(order,metadata)}
+  catch(error){$("#checkout-status").textContent=error.message;return}
+  const message=orderText(order,metadata);
+  const url=`https://wa.me/27720675927?text=${encodeURIComponent(message)}`;
   const fallback=$("#whatsapp-fallback");
   fallback.href=url;
   fallback.hidden=true;
-  const whatsappWindow=window.open(url,"_blank");
-  if(!whatsappWindow){
-    fallback.hidden=false;
-    $("#checkout-status").textContent="Your browser blocked the WhatsApp window. Use the link above to open your order.";
+  showInvoiceDownload(file);
+  if(navigator.share&&navigator.canShare&&navigator.canShare({files:[file]})){
+    try{
+      await navigator.share({files:[file],title:"LidHealth order request",text:`LidHealth order request ${metadata.reference}. Pending confirmation.`});
+      $("#checkout-status").textContent="Invoice shared. Choose WhatsApp, select the LidHealth chat and tap Send.";
+    }catch(error){
+      if(error.name==="AbortError"){$("#checkout-status").textContent="Sharing was cancelled. You can download the invoice photo or continue to WhatsApp with the order details.";fallback.hidden=false;return}
+      $("#checkout-status").textContent=`Could not share the invoice photo: ${error.message} Download it and attach it in WhatsApp, or continue with the text order.`;
+      fallback.hidden=false;
+    }
     return;
   }
-  whatsappWindow.opener=null;
-  $("#checkout-status").textContent="WhatsApp opened with your order request. Review it and tap Send; your cart will stay saved until you clear it.";
+  fallback.hidden=false;
+  $("#checkout-status").textContent="Your invoice photo is ready to download. Attach it in WhatsApp, then use the text order link if needed.";
 });
 function saveCart(previous){
   try{LidHealthCart.save(cart);$("#note").textContent="";draw();return true}
